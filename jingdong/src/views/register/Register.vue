@@ -2,23 +2,16 @@
     <div class="wrapper">
         <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png" />
         <div class="wrapper__input">
-            <input
-            class="wrapper__input__content"
-            placeholder="请输入用户名"
-            v-model="username"
-            />
+            <input class="wrapper__input__content" placeholder="请输入用户名" v-model="username"/>
         </div>
         <div class="wrapper__input">
-            <input
-            class="wrapper__input__content"
-            placeholder="请输入密码"
-            type="password"
-            v-model="password"
-            autocomplete="new-password"
-            />
+            <input class="wrapper__input__content" placeholder="请输入密码" type="password" autocomplete="new-password" v-model="password"/>
         </div>
-        <div class="wrapper__login-button" @click="handleLogin">登陆</div>
-        <div class="wrapper__login-link" @click="handleRegisterClick">立即注册</div>
+          <div class="wrapper__input">
+            <input class="wrapper__input__content" placeholder="确认密码" type="password" v-model="ensurement"/>
+        </div>
+        <div class="wrapper__register-button" @click="handleRegister">注册</div>
+        <div class="wrapper__register-link" @click="handleRegisterClick">已有账号去登陆</div>
         <Toast v-if="showToast" :message="toastMessage"/>
     </div>
 </template>
@@ -29,65 +22,64 @@ import { useRouter } from 'vue-router'
 import { post } from '../../utils/request'
 import Toast, { useToastEffect } from '../../components/Toast'
 
-const useLoginEffect = (showToast) => {
+const useRegisterEffect = (showToast) => {
   const router = useRouter()
   const data = reactive({
     username: '',
-    password: ''
+    password: '',
+    ensurement: ''
   })
-  // 处理登陆逻辑
-  const handleLogin = async () => {
+  // 处理注册逻辑
+  const handleRegister = async () => {
     try {
-      const result = await post('api/user/login', {
+      const result = await post('/api/user/register', {
         // 请求传递的用户名和密码
         username: data.username,
-        password: data.password
+        password: data.password,
+        ensurement: data.ensurement
       })
       console.log(result)
       if (result?.errno === 0) {
-        localStorage.isLogin = true
-        router.push({ name: 'Home' })
+        // localStorage.isLogin = true
+        router.push({ name: 'Login' })
       } else {
-        showToast('登陆失败')
+        showToast('注册失败')
       }
     } catch (e) {
       showToast('请求失败')
     }
   }
-  const { username, password } = toRefs(data)
-  return { username, password, handleLogin }
+  const { username, password, ensurement } = toRefs(data)
+  return { username, password, ensurement, handleRegister }
 }
 
-// 跳转注册页面
-const useRegisterEffect = () => {
+// 处理登陆跳转
+const useLoginEffect = () => {
   const router = useRouter()
-  const handleRegisterClick = () => {
-    router.push({ name: 'Register' })
+  const handleLoginClick = () => {
+    router.push({ name: 'Login' })
   }
-  return { handleRegisterClick }
+  return { handleLoginClick }
 }
 
-// axios.defaults.headers.post['Content-Type'] = 'application/json'
 export default {
-  name: 'Login',
+  name: 'Register',
   components: { Toast },
   setup () {
-    // Toast弹窗逻辑
     const { show, toastMessage, showToast } = useToastEffect()
-    const { username, password, handleLogin } = useLoginEffect(showToast)
-    const { handleRegisterClick } = useRegisterEffect()
-
+    const { username, password, ensurement, handleRegister } = useRegisterEffect(showToast)
+    const { handleLoginClick } = useLoginEffect()
     return {
-      handleLogin,
-      handleRegisterClick,
       username,
       password,
+      ensurement,
+      handleRegister,
+      handleLoginClick,
       show,
       toastMessage
     }
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -125,7 +117,7 @@ export default {
             }
         }
     }
-    &__login-button {
+    &__register-button {
         margin: .32rem .4rem .16rem .4rem;
         line-height: .48rem;
         background: #0091ff;
@@ -136,7 +128,7 @@ export default {
         font-size: .16rem;
         text-align: center;
     }
-    &__login-link {
+    &__register-link {
         text-align: center;
         font-size: .16rem;
         color: $content-notice-fontcolor;
