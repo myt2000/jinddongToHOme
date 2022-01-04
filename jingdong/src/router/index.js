@@ -1,18 +1,26 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/home/Home.vue'
-import Login from '../views/login/Login.vue'
-import Register from '../views/register/Register'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    // component: Home,
+    component: () => import(/* webpackChunkName: "home" */ '../views/home/Home.vue')
+  },
+  {
+    path: '/shop/:id',
+    name: 'Shop',
+    component: () => import(/* webpackChunkName: "shop" */ '../views/shop/Shop')
+  },
+  {
+    path: '/orderConfirmation/:id',
+    name: 'OrderConfirmation',
+    component: () => import(/* webpackChunkName: "orderConfirmation" */ '../views/orderConfirmation/OrderConfirmation')
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register,
+    component: () => import(/* webpackChunkName: "register" */ '../views/register/Register'),
     beforeEnter (to, from, next) {
       const { isLogin } = localStorage
       isLogin ? next({ name: 'Home' }) : next()
@@ -22,13 +30,19 @@ const routes = [
   {
     path: '/Login',
     name: 'Login',
-    component: Login,
+    component: () => import(/* webpackChunkName: "login" */ '../views/login/Login.vue'),
     // 访问login页面之前会执行
     beforeEnter (to, from, next) {
       const { isLogin } = localStorage
       isLogin ? next({ name: 'Home' }) : next()
       // console.log('beforeEnter', to, from)
     }
+  },
+  {
+    path: '/CartList',
+    name: 'CartList',
+    // component: Home,
+    component: () => import(/* webpackChunkName: "cartList" */ '../views/cartList/CartList.vue')
   }
   // {
   //   path: '/about',

@@ -43,7 +43,7 @@ const useLoginEffect = (showToast) => {
         username: data.username,
         password: data.password
       })
-      console.log(result)
+      // console.log(result)
       if (result?.errno === 0) {
         localStorage.isLogin = true
         router.push({ name: 'Home' })
@@ -128,11 +128,11 @@ export default {
     &__login-button {
         margin: .32rem .4rem .16rem .4rem;
         line-height: .48rem;
-        background: #0091ff;
+        background: $btn-bgColor;
         box-shadow: 0 .04rem .08rem 0 rgba(0,145,255,0.32);
         border: .01rem solid rgba(0,0,0,0.10);
         border-radius: .04rem;
-        color: #fff;
+        color: $bgColor;
         font-size: .16rem;
         text-align: center;
     }
