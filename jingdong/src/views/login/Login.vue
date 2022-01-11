@@ -1,25 +1,30 @@
 <template>
     <div class="wrapper">
-        <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png" />
+        <img
+            class="wrapper__img"
+            src="http://www.dell-lee.com/imgs/vue3/user.png"
+        />
         <div class="wrapper__input">
             <input
-            class="wrapper__input__content"
-            placeholder="请输入用户名"
-            v-model="username"
+                class="wrapper__input__content"
+                placeholder="请输入用户名"
+                v-model="username"
             />
         </div>
         <div class="wrapper__input">
             <input
-            class="wrapper__input__content"
-            placeholder="请输入密码"
-            type="password"
-            v-model="password"
-            autocomplete="new-password"
+                class="wrapper__input__content"
+                placeholder="请输入密码"
+                type="password"
+                v-model="password"
+                autocomplete="new-password"
             />
         </div>
         <div class="wrapper__login-button" @click="handleLogin">登陆</div>
-        <div class="wrapper__login-link" @click="handleRegisterClick">立即注册</div>
-        <Toast v-if="showToast" :message="toastMessage"/>
+        <div class="wrapper__login-link" @click="handleRegisterClick">
+            立即注册
+        </div>
+        <Toast v-if="show" :message="toastMessage" />
     </div>
 </template>
 
@@ -87,11 +92,10 @@ export default {
     }
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
-@import '../../style/viriables.scss';
+@import "../../style/viriables.scss";
 
 .wrapper {
     position: absolute;
@@ -101,24 +105,25 @@ export default {
     transform: translateY(-50%);
     &__img {
         display: block;
-        margin: 0 auto .4rem auto;
-        padding: 0 .16rem;
-        width: .66rem;
-        height: .66rem;
+        margin: 0 auto 0.4rem auto;
+        padding: 0 0.16rem;
+        width: 0.66rem;
+        height: 0.66rem;
     }
     &__input {
-        height: .48rem;
-        margin: 0 .4rem .16rem .4rem;
+        height: 0.48rem;
+        margin: 0 0.4rem 0.16rem 0.4rem;
         background: #f9f9f9;
-        border: .01rem solid rgba(0,0,0,0.10);
-        border-radius: .06rem;
+        border: 0.01rem solid rgba(0, 0, 0, 0.1);
+        border-radius: 0.06rem;
         &__content {
+            margin-top: 0.12rem;
             width: 100%;
-            line-height: .48rem;
-            border:none;
+            line-height: 0.22rem;
+            border: none;
             outline: none;
             background: none;
-            font-size: .16rem;
+            font-size: 0.16rem;
             color: $content-notice-fontcolor;
             &::placeholder {
                 color: $content-notice-fontcolor;
@@ -126,19 +131,19 @@ export default {
         }
     }
     &__login-button {
-        margin: .32rem .4rem .16rem .4rem;
-        line-height: .48rem;
+        margin: 0.32rem 0.4rem 0.16rem 0.4rem;
+        line-height: 0.48rem;
         background: $btn-bgColor;
-        box-shadow: 0 .04rem .08rem 0 rgba(0,145,255,0.32);
-        border: .01rem solid rgba(0,0,0,0.10);
-        border-radius: .04rem;
+        box-shadow: 0 0.04rem 0.08rem 0 rgba(0, 145, 255, 0.32);
+        border: 0.01rem solid rgba(0, 0, 0, 0.1);
+        border-radius: 0.04rem;
         color: $bgColor;
-        font-size: .16rem;
+        font-size: 0.16rem;
         text-align: center;
     }
     &__login-link {
         text-align: center;
-        font-size: .16rem;
+        font-size: 0.16rem;
         color: $content-notice-fontcolor;
     }
 }

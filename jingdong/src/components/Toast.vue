@@ -19,7 +19,7 @@ export const useToastEffect = () => {
     setTimeout(() => {
       toastData.show = false
       toastData.toastMessage = ''
-    }, 2000)
+    }, 5000)
   }
   const { show, toastMessage } = toRefs(toastData)
   return { showToast, show, toastMessage }

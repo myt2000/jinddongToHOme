@@ -24,8 +24,7 @@
                     >
                 </div>
             </div>
-            <template v-for="item in productList" :key="item._id">
-                <div class="product__item" v-if="item.count > 0">
+                <div class="product__item" v-for="item in productList" :key="item._id">
                     <div
                         class="product__item__checked iconfont"
                         v-html="item.check ? '&#xe70f;' : '&#xe619;'"
@@ -76,7 +75,6 @@
                         >
                     </div>
                 </div>
-            </template>
         </div>
         <div class="check">
             <div class="check__icon">
@@ -93,7 +91,7 @@
                     >&yen;{{ calculations.price }}</span
                 >
             </div>
-            <div class="check__btn">
+            <div class="check__btn" v-show="calculations.total > 0">
                 <router-link :to="{ path: `/OrderConfirmation/${shopId}` }">
                     去结算
                 </router-link>
@@ -103,37 +101,19 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { useCommonCartEffect } from './commonCartEffect'
+import { useCommonCartEffect } from '../../effects/cartEffects'
 
 // 获取购物车信息逻辑
 const useCartEffect = (shopId) => {
   const store = useStore()
-  const { changeCartItemInfo, cartList, productList } = useCommonCartEffect(shopId)
+  const { changeCartItemInfo, productList, calculations } =
+    useCommonCartEffect(shopId)
 
   // const route = useRoute()
   // const shopId = route.params.id
-
-  const calculations = computed(() => {
-    const productList = cartList[shopId]?.productList
-    const result = { total: 0, price: 0, allChecked: true }
-    if (productList) {
-      for (const i in productList) {
-        const product = productList[i]
-        result.total += product.count
-        if (product.check) {
-          result.price += product.count * product.price
-        }
-        if (product.count > 0 && !product.check) {
-          result.allChecked = false
-        }
-      }
-    }
-    result.price = result.price.toFixed(2)
-    return result
-  })
 
   const changeCartItemCheck = (shopId, productId) => {
     store.commit('changeCartItemCheck', {
