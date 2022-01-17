@@ -2,10 +2,11 @@
 模仿京东到家
 
 # 启动步骤
+```
 cd ./jingdong/
 npm install
 npm run serve
-
+```
 
 # 效果展示
 首页
